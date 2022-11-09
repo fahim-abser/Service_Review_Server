@@ -43,6 +43,21 @@ async function run() {
             const result = await reviewCollection.insertOne(review);
             res.send(result);
         });
+        app.get('/reviews', async (req, res) => {
+            let query = {};
+
+            if (req.query.serviceId) {
+                query = {
+                    serviceId: req.query.serviceId
+                }
+            }
+            sort = { '_id': -1 }
+            const cursor = reviewCollection.find(query).sort(sort);
+            const newReview = await cursor.toArray();
+            res.send(newReview);
+            
+        });
+        
     }
     finally {
 
